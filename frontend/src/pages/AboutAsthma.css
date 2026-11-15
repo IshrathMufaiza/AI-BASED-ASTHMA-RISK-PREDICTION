@@ -1,0 +1,105 @@
+.about-asthma-page {
+    flex: 1;
+    min-height: 100vh;
+    padding: 40px 6%;
+    background: #f5f7fb;
+    box-sizing: border-box;
+}
+
+.about-asthma-header {
+    max-width: 1150px;
+    margin: 0 auto 30px;
+}
+
+.about-asthma-header h1 {
+    margin: 0 0 10px;
+    font-size: 38px;
+    color: #111827;
+}
+
+.about-asthma-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 18px;
+}
+
+.asthma-card {
+    max-width: 1150px;
+    margin: 0 auto 25px;
+    padding: 28px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+.asthma-card h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #111827;
+}
+
+.asthma-card p {
+    color: #4b5563;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.asthma-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.asthma-list div {
+    padding: 14px 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+    color: #374151;
+}
+
+.warning-box {
+    margin-top: 20px;
+    padding: 16px;
+    background: #fff4e5;
+    color: #c2410c;
+    border-left: 5px solid #f97316;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Dark Mode */
+
+body.dark-mode .about-asthma-page {
+    background: #0f172a;
+}
+
+body.dark-mode .about-asthma-header h1,
+body.dark-mode .asthma-card h2 {
+    color: #f8fafc;
+}
+
+body.dark-mode .about-asthma-header p,
+body.dark-mode .asthma-card p {
+    color: #cbd5e1;
+}
+
+body.dark-mode .asthma-card {
+    background: #1e293b;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .asthma-list div {
+    background: #334155;
+    color: #e2e8f0;
+}
+
+@media (max-width: 768px) {
+    .about-asthma-page {
+        padding: 30px 20px;
+    }
+
+    .asthma-list {
+        grid-template-columns: 1fr;
+    }
+}

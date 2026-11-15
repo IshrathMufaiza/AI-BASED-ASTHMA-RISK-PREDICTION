@@ -1,0 +1,436 @@
+/* =========================
+   KNOW YOUR VITALS PAGE
+========================= */
+
+.vitals-info-page {
+    flex: 1;
+    min-height: 100vh;
+    padding: 45px 6%;
+    background: #f5f7fb;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.vitals-info-header {
+    max-width: 1100px;
+    margin: 0 auto 35px;
+}
+
+.vitals-info-header h1 {
+    margin: 0 0 12px;
+    font-size: 42px;
+    color: #111827;
+}
+
+.vitals-info-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 19px;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   VITAL CARDS
+========================= */
+
+.vitals-info-grid {
+    max-width: 1100px;
+    margin: 0 auto 30px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.vital-info-card {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 22px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+
+    transition: 0.25s;
+}
+
+.vital-info-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1);
+}
+
+.vital-info-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+.vital-info-card h2 {
+    margin: 0 0 12px;
+
+    color: #111827;
+
+    font-size: 25px;
+}
+
+.vital-info-card > p {
+    margin: 0;
+
+    color: #4b5563;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   SENSOR INFORMATION
+========================= */
+
+.sensor-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    margin-top: 22px;
+
+    padding: 15px 17px;
+
+    background: #f8fafc;
+
+    border-radius: 12px;
+}
+
+.sensor-info strong {
+    color: #374151;
+
+    font-size: 14px;
+}
+
+.sensor-info span {
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   DASHBOARD VALUE
+========================= */
+
+.dashboard-value {
+    margin-top: 15px;
+
+    color: #0284c7;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   SENSOR PROCESS
+========================= */
+
+.sensor-process-card {
+    max-width: 1100px;
+
+    margin: 0 auto 30px;
+
+    padding: 35px 40px;
+
+    background: white;
+
+    border-radius: 24px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+
+    box-sizing: border-box;
+}
+
+.sensor-process-card h2 {
+    margin: 0 0 15px;
+
+    color: #111827;
+
+    font-size: 30px;
+}
+
+.sensor-process-card > p {
+    margin: 0;
+
+    color: #4b5563;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================
+   SENSOR FLOW
+========================= */
+
+.sensor-flow {
+    position: relative;
+
+    max-width: 900px;
+
+    height: 300px;
+
+    margin: 35px auto 0;
+}
+
+.flow-item {
+    position: absolute;
+
+    width: 200px;
+
+    min-height: 150px;
+
+    padding: 18px;
+
+    background: #f8fafc;
+
+    border-radius: 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    box-sizing: border-box;
+}
+
+.flow-arrow {
+    position: absolute;
+    color: #0ea5e9;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.arrow-sensors-data {
+    top: 70px;
+    left: 43%;
+}
+
+.arrow-data-processing {
+    top: 135px;
+    left: 47%;
+    font-size: 38px;
+}
+
+.arrow-processing-dashboard {
+    bottom: 65px;
+    left: 43%;
+}
+
+.sensors-flow {
+    top: 0;
+    left: 0;
+}
+
+.data-flow {
+    top: 0;
+    right: 0;
+}
+
+.processing-flow {
+    bottom: 0;
+    left: 0;
+}
+
+.dashboard-flow {
+    bottom: 0;
+    right: 0;
+}
+
+.flow-item span {
+    font-size: 32px;
+
+    margin-bottom: 8px;
+}
+
+.flow-item strong {
+    color: #111827;
+
+    font-size: 15px;
+}
+
+.flow-item small {
+    margin-top: 5px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+}
+
+.flow-arrow {
+    color: #0ea5e9;
+
+    font-size: 25px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   NOTE
+========================= */
+
+.vitals-note {
+    max-width: 1100px;
+
+    margin: 0 auto 30px;
+
+    padding: 20px 25px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    background: #eff6ff;
+
+    border-left: 5px solid #0ea5e9;
+
+    border-radius: 14px;
+
+    box-sizing: border-box;
+}
+
+.vitals-note span {
+    font-size: 24px;
+}
+
+.vitals-note p {
+    margin: 0;
+
+    color: #374151;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark-mode .vitals-info-page {
+    background: #0f172a;
+}
+
+body.dark-mode .vitals-info-header h1 {
+    color: #f8fafc;
+}
+
+body.dark-mode .vitals-info-header p {
+    color: #cbd5e1;
+}
+
+body.dark-mode .vital-info-card,
+body.dark-mode .sensor-process-card {
+    background: #1e293b;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .vital-info-card h2,
+body.dark-mode .sensor-process-card h2 {
+    color: #f8fafc;
+}
+
+body.dark-mode .vital-info-card > p,
+body.dark-mode .sensor-process-card > p {
+    color: #cbd5e1;
+}
+
+body.dark-mode .sensor-info,
+body.dark-mode .flow-item {
+    background: #334155;
+}
+
+body.dark-mode .sensor-info strong,
+body.dark-mode .flow-item strong {
+    color: #f8fafc;
+}
+
+body.dark-mode .sensor-info span,
+body.dark-mode .flow-item small {
+    color: #cbd5e1;
+}
+
+body.dark-mode .vitals-note {
+    background: #1e3a5f;
+}
+
+body.dark-mode .vitals-note p {
+    color: #e2e8f0;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+
+    .vitals-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sensor-flow {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .vitals-info-page {
+        padding: 30px 20px;
+    }
+
+    .vitals-info-header h1 {
+        font-size: 34px;
+    }
+
+    .sensor-process-card {
+        padding: 28px 22px;
+    }
+
+    .sensor-process-card h2 {
+        font-size: 25px;
+    }
+
+    .sensor-flow {
+        flex-direction: column;
+    }
+
+    .flow-arrow {
+        transform: rotate(90deg);
+    }
+
+    .flow-item {
+        width: 100%;
+        max-width: 220px;
+    }
+}

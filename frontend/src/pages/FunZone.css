@@ -1,0 +1,486 @@
+.fun-zone-page {
+    flex: 1;
+    min-height: 100vh;
+    padding: 45px 6%;
+    background: #f5f7fb;
+    box-sizing: border-box;
+}
+
+.fun-zone-header {
+    max-width: 1100px;
+    margin: 0 auto 35px;
+}
+
+.fun-zone-header h1 {
+    margin: 0 0 10px;
+    font-size: 42px;
+    color: #111827;
+}
+
+.fun-zone-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 19px;
+}
+
+/* -----------------------------
+   BREATHING BUDDY
+----------------------------- */
+
+.little-breathe-card {
+    max-width: 1100px;
+    margin: 0 auto 25px;
+    padding: 35px;
+    background: linear-gradient(135deg, #e0f2fe, #f0fdfa);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 45px;
+    box-sizing: border-box;
+}
+
+.breathe-character {
+    width: 220px;
+    min-width: 220px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.breathe-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #bae6fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 65px;
+    box-shadow: 0 12px 30px rgba(14, 165, 233, 0.18);
+}
+
+.breathe-circle.breathing {
+    animation: breatheBuddy 5s ease-in-out infinite;
+}
+
+@keyframes breatheBuddy {
+    0% {
+        transform: scale(0.75);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(0.75);
+    }
+}
+
+.breathe-content {
+    flex: 1;
+}
+
+.breathe-content h2 {
+    margin: 0 0 12px;
+    color: #111827;
+    font-size: 30px;
+}
+
+.breathe-content p {
+    margin: 0 0 18px;
+    color: #4b5563;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.fun-button {
+    padding: 13px 25px;
+    border: none;
+    border-radius: 14px;
+    background: #0ea5e9;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.fun-button:hover {
+    background: #0284c7;
+    transform: translateY(-2px);
+}
+
+.breathing-message {
+    margin-top: 18px;
+    padding: 12px 18px;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 14px;
+    color: #0369a1;
+    font-weight: 600;
+    line-height: 1.8;
+}
+
+/* -----------------------------
+   BUBBLE GAME
+----------------------------- */
+
+.bubble-game-card {
+    max-width: 1100px;
+    margin: 0 auto 25px;
+    padding: 30px;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    box-sizing: border-box;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.section-heading > span {
+    font-size: 42px;
+}
+
+.section-heading h2 {
+    margin: 0 0 6px;
+    color: #111827;
+    font-size: 27px;
+}
+
+.section-heading p {
+    margin: 0;
+    color: #6b7280;
+}
+
+.bubble-area {
+    position: relative;
+    height: 260px;
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #f0f9ff, #ecfeff);
+}
+
+.bubble {
+    position: absolute;
+    border: none;
+    background: transparent;
+    font-size: 48px;
+    cursor: pointer;
+    transition: 0.2s;
+    animation: floatBubble 3s ease-in-out infinite;
+}
+
+.bubble:hover {
+    transform: scale(1.2);
+}
+
+.bubble:active {
+    transform: scale(0.7);
+}
+
+.bubble-one {
+    left: 12%;
+    top: 30%;
+}
+
+.bubble-two {
+    left: 30%;
+    top: 12%;
+    animation-delay: 0.5s;
+}
+
+.bubble-three {
+    left: 50%;
+    top: 45%;
+    animation-delay: 1s;
+}
+
+.bubble-four {
+    right: 20%;
+    top: 15%;
+    animation-delay: 1.5s;
+}
+
+.bubble-five {
+    right: 8%;
+    bottom: 15%;
+    animation-delay: 2s;
+}
+
+@keyframes floatBubble {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+.bubble-score {
+    margin-top: 18px;
+    text-align: center;
+    color: #0369a1;
+    font-weight: 600;
+}
+
+/* -----------------------------
+   CALM WORLD
+----------------------------- */
+
+.calm-world-card {
+    max-width: 1100px;
+    margin: 0 auto 25px;
+    padding: 30px;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    box-sizing: border-box;
+}
+
+.calm-icon {
+    width: 70px;
+    min-width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fef3c7;
+    border-radius: 20px;
+    font-size: 38px;
+}
+
+.calm-world-card h2 {
+    margin: 0 0 8px;
+    color: #111827;
+}
+
+.calm-world-card p {
+    margin: 0;
+    color: #6b7280;
+}
+
+.calm-friends {
+    display: flex;
+    gap: 18px;
+    margin-top: 20px;
+    font-size: 30px;
+}
+
+.calm-friends span {
+    display: inline-block;
+    animation: gentleFloat 3s ease-in-out infinite;
+}
+
+.calm-friends span:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.calm-friends span:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.calm-friends span:nth-child(4) {
+    animation-delay: 0.9s;
+}
+
+.calm-friends span:nth-child(5) {
+    animation-delay: 1.2s;
+}
+
+.calm-friends span:nth-child(6) {
+    animation-delay: 1.5s;
+}
+
+@keyframes gentleFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* -----------------------------
+   PARENT NOTE
+----------------------------- */
+
+.parent-note {
+    max-width: 1100px;
+    margin: 0 auto 30px;
+    padding: 22px 25px;
+    border-radius: 20px;
+    background: #fefce8;
+    border: 1px solid #fde68a;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    box-sizing: border-box;
+}
+
+.parent-note > span {
+    font-size: 28px;
+}
+
+.parent-note h3 {
+    margin: 0 0 6px;
+    color: #854d0e;
+}
+
+.parent-note p {
+    margin: 0;
+    color: #713f12;
+    line-height: 1.6;
+}
+
+/* -----------------------------
+   DARK MODE
+----------------------------- */
+
+body.dark-mode .fun-zone-page {
+    background: #0f172a;
+}
+
+body.dark-mode .fun-zone-header h1 {
+    color: #f8fafc;
+}
+
+body.dark-mode .fun-zone-header p {
+    color: #cbd5e1;
+}
+
+body.dark-mode .little-breathe-card {
+    background: linear-gradient(135deg, #164e63, #134e4a);
+}
+
+body.dark-mode .breathe-content h2 {
+    color: #f8fafc;
+}
+
+body.dark-mode .breathe-content p {
+    color: #cbd5e1;
+}
+
+body.dark-mode .breathing-message {
+    background: rgba(15, 23, 42, 0.5);
+    color: #bae6fd;
+}
+
+body.dark-mode .bubble-game-card,
+body.dark-mode .calm-world-card {
+    background: #1e293b;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .section-heading h2,
+body.dark-mode .calm-world-card h2 {
+    color: #f8fafc;
+}
+
+body.dark-mode .section-heading p,
+body.dark-mode .calm-world-card p {
+    color: #cbd5e1;
+}
+
+body.dark-mode .bubble-area {
+    background: linear-gradient(135deg, #164e63, #134e4a);
+}
+
+body.dark-mode .bubble-score {
+    color: #7dd3fc;
+}
+
+body.dark-mode .calm-icon {
+    background: #334155;
+}
+
+body.dark-mode .parent-note {
+    background: #422006;
+    border-color: #92400e;
+}
+
+body.dark-mode .parent-note h3 {
+    color: #fde68a;
+}
+
+body.dark-mode .parent-note p {
+    color: #fef3c7;
+}
+
+/* -----------------------------
+   RESPONSIVE
+----------------------------- */
+
+@media (max-width: 800px) {
+    .little-breathe-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .breathe-character {
+        width: 180px;
+        min-width: 180px;
+        height: 180px;
+    }
+
+    .bubble-area {
+        height: 220px;
+    }
+}
+
+@media (max-width: 600px) {
+    .fun-zone-page {
+        padding: 30px 20px;
+    }
+
+    .fun-zone-header h1 {
+        font-size: 34px;
+    }
+
+    .fun-zone-header p {
+        font-size: 16px;
+    }
+
+    .little-breathe-card,
+    .bubble-game-card,
+    .calm-world-card {
+        padding: 24px;
+    }
+
+    .breathe-circle {
+        width: 125px;
+        height: 125px;
+        font-size: 55px;
+    }
+
+    .section-heading h2 {
+        font-size: 23px;
+    }
+
+    .calm-world-card {
+        align-items: flex-start;
+    }
+
+    .calm-friends {
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .parent-note {
+        padding: 20px;
+    }
+}

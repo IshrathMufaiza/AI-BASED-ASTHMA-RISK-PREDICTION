@@ -63,7 +63,19 @@ if missing_columns:
 if df[TARGET_COLUMN].isnull().any():
     raise ValueError("Target column contains missing labels.")
 
+if len(ALL_FEATURES) != len(set(ALL_FEATURES)):
+    raise ValueError("Duplicate features found in feature_config.py.")
+
+if set(NUMERIC_FEATURES + CATEGORICAL_FEATURES) != set(ALL_FEATURES):
+    raise ValueError("Feature configuration lists are inconsistent.")
+
+# Confirm that configured numeric features are actually numeric.
+for feature in NUMERIC_FEATURES:
+    if not pd.api.types.is_numeric_dtype(df[feature]):
+        raise TypeError(f"Feature '{feature}' is not numeric.")
+
 print("Dataset loaded:", df.shape)
+print("Configured features:", len(ALL_FEATURES))
 
 
 # --------------------------------------------------
@@ -77,7 +89,6 @@ test_df = df[df["split"] == "test"].copy()
 if train_df.empty or val_df.empty or test_df.empty:
     raise ValueError("One or more dataset splits are empty.")
 
-# Verify that patients do not overlap between splits.
 train_patients = set(train_df["patient_id"])
 val_patients = set(val_df["patient_id"])
 test_patients = set(test_df["patient_id"])
@@ -88,6 +99,11 @@ if (
     or val_patients & test_patients
 ):
     raise ValueError("Patient overlap detected between dataset splits!")
+
+expected_classes = {"LOW", "MEDIUM", "HIGH"}
+
+if set(train_df[TARGET_COLUMN].unique()) != expected_classes:
+    raise ValueError("Training split does not contain all three risk classes.")
 
 print("\nDataset split sizes:")
 print("Training:", len(train_df))
@@ -113,19 +129,34 @@ y_val = val_df[TARGET_COLUMN]
 # 5. Build preprocessing pipeline
 # --------------------------------------------------
 
-numeric_pipeline = Pipeline([
-    ("imputer", SimpleImputer(strategy="median")),
-])
+transformers = []
 
-categorical_pipeline = Pipeline([
-    ("imputer", SimpleImputer(strategy="most_frequent")),
-    ("encoder", OneHotEncoder(handle_unknown="ignore")),
-])
+if NUMERIC_FEATURES:
+    numeric_pipeline = Pipeline([
+        ("imputer", SimpleImputer(strategy="median")),
+    ])
 
-preprocessor = ColumnTransformer([
-    ("numeric", numeric_pipeline, NUMERIC_FEATURES),
-    ("categorical", categorical_pipeline, CATEGORICAL_FEATURES),
-])
+    transformers.append(
+        ("numeric", numeric_pipeline, NUMERIC_FEATURES)
+    )
+
+if CATEGORICAL_FEATURES:
+    categorical_pipeline = Pipeline([
+        ("imputer", SimpleImputer(strategy="most_frequent")),
+        ("encoder", OneHotEncoder(handle_unknown="ignore")),
+    ])
+
+    transformers.append(
+        ("categorical", categorical_pipeline, CATEGORICAL_FEATURES)
+    )
+
+if not transformers:
+    raise ValueError("No features configured for training.")
+
+preprocessor = ColumnTransformer(
+    transformers=transformers,
+    remainder="drop",
+)
 
 
 # --------------------------------------------------
@@ -168,22 +199,32 @@ y_val_pred = model.predict(X_val)
 balanced_acc = balanced_accuracy_score(y_val, y_val_pred)
 macro_f1 = f1_score(y_val, y_val_pred, average="macro")
 
+labels = list(model.named_steps["classifier"].classes_)
+
+report = classification_report(
+    y_val,
+    y_val_pred,
+    labels=labels,
+    zero_division=0,
+)
+
+matrix = confusion_matrix(
+    y_val,
+    y_val_pred,
+    labels=labels,
+)
+
 print("\n========== VALIDATION RESULTS ==========")
 print(f"Balanced Accuracy: {balanced_acc:.4f}")
 print(f"Macro F1 Score:    {macro_f1:.4f}")
 
 print("\nClassification Report:")
-report = classification_report(
-    y_val,
-    y_val_pred,
-    zero_division=0,
-)
 print(report)
 
-labels = list(model.named_steps["classifier"].classes_)
-
 print("\nConfusion Matrix:")
-print(confusion_matrix(y_val, y_val_pred, labels=labels))
+print("Rows = Actual | Columns = Predicted")
+print("Class order:", labels)
+print(matrix)
 
 
 # --------------------------------------------------
@@ -196,21 +237,27 @@ metrics_path = OUTPUT_DIR / "validation_metrics.json"
 joblib.dump(model, model_path)
 
 metrics = {
+    "model_type": "Random Forest",
+    "feature_count": len(ALL_FEATURES),
+    "features": ALL_FEATURES,
+    "numeric_features": NUMERIC_FEATURES,
+    "categorical_features": CATEGORICAL_FEATURES,
+    "training_samples": len(train_df),
+    "validation_samples": len(val_df),
+    "test_samples_reserved": len(test_df),
     "balanced_accuracy": float(balanced_acc),
     "macro_f1": float(macro_f1),
     "classification_report": classification_report(
         y_val,
         y_val_pred,
+        labels=labels,
         output_dict=True,
         zero_division=0,
     ),
-    "confusion_matrix": confusion_matrix(
-        y_val,
-        y_val_pred,
-        labels=labels,
-    ).tolist(),
+    "confusion_matrix": matrix.tolist(),
     "classes": labels,
-    "features": ALL_FEATURES,
+    "random_state": 42,
+    "n_estimators": 300,
 }
 
 with open(metrics_path, "w") as file:

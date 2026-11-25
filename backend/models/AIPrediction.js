@@ -9,12 +9,13 @@ const aiPredictionSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+
     dataSource: {
-  type: String,
-  enum: ["TEST", "DEVICE"],
-  default: "TEST",
-  required: true,
-},
+      type: String,
+      enum: ["TEST", "DEVICE"],
+      default: "TEST",
+      required: true,
+    },
 
     sensorReadings: {
       type: mongoose.Schema.Types.Mixed,
@@ -38,11 +39,6 @@ const aiPredictionSchema = new mongoose.Schema(
       default: [],
     },
 
-    languageExplanation: {
-      type: String,
-      default: null,
-    },
-
     modelType: {
       type: String,
       default: "Random Forest",
@@ -51,11 +47,6 @@ const aiPredictionSchema = new mongoose.Schema(
     explainabilityMethod: {
       type: String,
       default: "SHAP",
-    },
-
-    languageModel: {
-      type: String,
-      default: "Gemini",
     },
 
     capturedAt: {

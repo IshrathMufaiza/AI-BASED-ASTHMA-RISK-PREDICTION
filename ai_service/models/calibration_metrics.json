@@ -5,150 +5,135 @@
         "LOW",
         "MEDIUM"
     ],
-    "multiclass_brier_score": 0.058914423868312756,
-    "log_loss": 0.10354870573422771,
-    "top_label_ece": 0.02079717813051151,
+    "multiclass_brier_score": 0.0588546884185773,
+    "log_loss": 0.10093169135307636,
+    "top_label_ece": 0.015016313932980689,
     "per_class": {
         "HIGH": {
-            "brier_score": 0.007435127865961199,
+            "brier_score": 0.007706976778365668,
             "calibration_points": [
                 {
                     "mean_predicted_probability": 0.0,
                     "actual_fraction": 0.0
                 },
                 {
-                    "mean_predicted_probability": 0.005138047138047164,
+                    "mean_predicted_probability": 0.004237954768928226,
                     "actual_fraction": 0.0
                 },
                 {
-                    "mean_predicted_probability": 0.17701267056530193,
-                    "actual_fraction": 0.15058479532163743
+                    "mean_predicted_probability": 0.16954454454454476,
+                    "actual_fraction": 0.14864864864864866
                 },
                 {
-                    "mean_predicted_probability": 0.9557275132275177,
-                    "actual_fraction": 0.9880952380952381
+                    "mean_predicted_probability": 0.9612301587301622,
+                    "actual_fraction": 0.9933862433862434
                 }
             ]
         },
         "LOW": {
-            "brier_score": 0.02198989271017049,
+            "brier_score": 0.021699197530864196,
             "calibration_points": [
                 {
                     "mean_predicted_probability": 0.0,
                     "actual_fraction": 0.0
                 },
                 {
-                    "mean_predicted_probability": 0.005184049079754615,
+                    "mean_predicted_probability": 0.004368340943683405,
                     "actual_fraction": 0.0
                 },
                 {
-                    "mean_predicted_probability": 0.09340108401084012,
-                    "actual_fraction": 0.05013550135501355
+                    "mean_predicted_probability": 0.09356907119283348,
+                    "actual_fraction": 0.04667609618104668
                 },
                 {
-                    "mean_predicted_probability": 0.636571056062582,
-                    "actual_fraction": 0.6466753585397653
+                    "mean_predicted_probability": 0.6505063848524886,
+                    "actual_fraction": 0.6472919418758256
                 },
                 {
-                    "mean_predicted_probability": 0.9749041297935198,
-                    "actual_fraction": 0.9922566371681416
+                    "mean_predicted_probability": 0.979742765273322,
+                    "actual_fraction": 0.9935691318327974
                 },
                 {
-                    "mean_predicted_probability": 0.995541356052542,
-                    "actual_fraction": 1.0
-                },
-                {
-                    "mean_predicted_probability": 1.0,
+                    "mean_predicted_probability": 0.9995173244394874,
                     "actual_fraction": 1.0
                 }
             ]
         },
         "MEDIUM": {
-            "brier_score": 0.029489403292181072,
+            "brier_score": 0.029448514109347443,
             "calibration_points": [
                 {
                     "mean_predicted_probability": 0.0,
                     "actual_fraction": 0.0
                 },
                 {
-                    "mean_predicted_probability": 0.003333333333333371,
+                    "mean_predicted_probability": 0.0033333333333333635,
                     "actual_fraction": 0.0
                 },
                 {
-                    "mean_predicted_probability": 0.0066666666666666706,
-                    "actual_fraction": 0.0
+                    "mean_predicted_probability": 0.010416666666666671,
+                    "actual_fraction": 0.0029411764705882353
                 },
                 {
-                    "mean_predicted_probability": 0.013992497320471557,
-                    "actual_fraction": 0.003215434083601286
+                    "mean_predicted_probability": 0.04473588342440807,
+                    "actual_fraction": 0.009562841530054645
                 },
                 {
-                    "mean_predicted_probability": 0.051420982735723854,
-                    "actual_fraction": 0.010624169986719787
+                    "mean_predicted_probability": 0.3345651214128034,
+                    "actual_fraction": 0.3086092715231788
                 },
                 {
-                    "mean_predicted_probability": 0.34299600532623176,
-                    "actual_fraction": 0.3022636484687084
+                    "mean_predicted_probability": 0.8217783618046417,
+                    "actual_fraction": 0.8948751642575559
                 },
                 {
-                    "mean_predicted_probability": 0.8186244070720134,
-                    "actual_fraction": 0.8965071151358344
-                },
-                {
-                    "mean_predicted_probability": 0.9706856111862939,
-                    "actual_fraction": 0.9905277401894452
+                    "mean_predicted_probability": 0.9789619686800977,
+                    "actual_fraction": 0.9919463087248322
                 }
             ]
         }
     },
     "confidence_bins": [
         {
-            "lower_confidence": 0.49666666666666665,
-            "upper_confidence": 0.7830000000000003,
-            "sample_count": 756,
-            "mean_confidence": 0.655273368606702,
-            "actual_accuracy": 0.7116402116402116
+            "lower_confidence": 0.5,
+            "upper_confidence": 0.7833333333333333,
+            "sample_count": 749,
+            "mean_confidence": 0.6538851802403205,
+            "actual_accuracy": 0.6862483311081442
         },
         {
-            "lower_confidence": 0.7830000000000003,
-            "upper_confidence": 0.9066666666666666,
-            "sample_count": 726,
-            "mean_confidence": 0.8503351698806245,
-            "actual_accuracy": 0.9269972451790633
+            "lower_confidence": 0.7833333333333333,
+            "upper_confidence": 0.9233333333333333,
+            "sample_count": 758,
+            "mean_confidence": 0.8607387862796835,
+            "actual_accuracy": 0.9234828496042217
         },
         {
-            "lower_confidence": 0.9066666666666666,
-            "upper_confidence": 0.9633333333333334,
-            "sample_count": 721,
-            "mean_confidence": 0.9382570503929727,
-            "actual_accuracy": 0.986130374479889
+            "lower_confidence": 0.9233333333333333,
+            "upper_confidence": 0.97,
+            "sample_count": 680,
+            "mean_confidence": 0.948735294117647,
+            "actual_accuracy": 0.9838235294117647
         },
         {
-            "lower_confidence": 0.9633333333333334,
-            "upper_confidence": 0.9866666666666667,
-            "sample_count": 814,
-            "mean_confidence": 0.9749221949221948,
-            "actual_accuracy": 0.9926289926289926
+            "lower_confidence": 0.97,
+            "upper_confidence": 0.99,
+            "sample_count": 736,
+            "mean_confidence": 0.979800724637681,
+            "actual_accuracy": 0.9945652173913043
         },
         {
-            "lower_confidence": 0.9866666666666667,
-            "upper_confidence": 0.9933333333333333,
-            "sample_count": 503,
-            "mean_confidence": 0.988389662027833,
-            "actual_accuracy": 0.9980119284294234
-        },
-        {
-            "lower_confidence": 0.9933333333333333,
+            "lower_confidence": 0.99,
             "upper_confidence": 0.9966666666666667,
-            "sample_count": 410,
-            "mean_confidence": 0.9933333333333336,
+            "sample_count": 579,
+            "mean_confidence": 0.9917098445595856,
             "actual_accuracy": 1.0
         },
         {
             "lower_confidence": 0.9966666666666667,
             "upper_confidence": 1.0,
-            "sample_count": 3630,
-            "mean_confidence": 0.9993241505968777,
+            "sample_count": 4058,
+            "mean_confidence": 0.9994586824379824,
             "actual_accuracy": 1.0
         }
     ]

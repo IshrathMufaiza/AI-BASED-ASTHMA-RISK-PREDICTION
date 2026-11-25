@@ -1,3 +1,4 @@
+
 # AsthmaWatch - Model Feature Configuration
 
 TARGET_COLUMN = "risk_label"
@@ -23,17 +24,8 @@ NUMERIC_FEATURES = [
     "cough_count",
     "ambient_noise_db",
     "audio_quality",
-
-    # Pendant: MPU6050
-    "accel_mean_g",
-    "accel_std_g",
-    "step_count",
-    "trunk_tilt_deg",
 ]
 
-CATEGORICAL_FEATURES = [
-    "activity_level",
-    "posture",
-]
+CATEGORICAL_FEATURES = []
 
 ALL_FEATURES = NUMERIC_FEATURES + CATEGORICAL_FEATURES

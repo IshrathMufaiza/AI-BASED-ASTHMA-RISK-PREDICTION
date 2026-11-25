@@ -536,7 +536,6 @@
 }
 
 .ai-block h3,
-.ai-gemini-box h3,
 .ai-history-summary h3 {
     font-size: 16px;
     margin-bottom: 14px;
@@ -635,27 +634,6 @@
     color: #16a34a;
 }
 
-/* Gemini explanation */
-
-.ai-gemini-box {
-    margin-top: 25px;
-    padding: 20px;
-    border-radius: 14px;
-    background: #eff6ff;
-    border-left: 4px solid #3b82f6;
-}
-
-.ai-gemini-box h3 {
-    color: #1e40af;
-}
-
-.ai-gemini-box p {
-    color: #334155;
-    font-size: 14px;
-    line-height: 1.8;
-    white-space: pre-line;
-}
-
 /* Previous readings */
 
 .ai-history-summary {
@@ -734,7 +712,6 @@ body.dark-mode .ai-section {
 
 body.dark-mode .ai-section-header h2,
 body.dark-mode .ai-block h3,
-body.dark-mode .ai-gemini-box h3,
 body.dark-mode .ai-history-summary h3 {
     color: #f8fafc;
 }
@@ -775,19 +752,6 @@ body.dark-mode .ai-feature-details strong {
 
 body.dark-mode .ai-feature-details span {
     color: #cbd5e1;
-}
-
-body.dark-mode .ai-gemini-box {
-    background: #172554;
-    border-left-color: #60a5fa;
-}
-
-body.dark-mode .ai-gemini-box h3 {
-    color: #bfdbfe;
-}
-
-body.dark-mode .ai-gemini-box p {
-    color: #e2e8f0;
 }
 
 body.dark-mode .ai-history-counts div {

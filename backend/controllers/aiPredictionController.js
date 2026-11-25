@@ -1,5 +1,6 @@
 
 const AIPrediction = require("../models/AIPrediction");
+const Alert = require("../models/Alert");
 const { predictRisk } = require("../services/aiService");
 
 const createPrediction = async (req, res) => {
@@ -45,22 +46,63 @@ const createPrediction = async (req, res) => {
 
     // Step 3: Save the prediction in MongoDB.
     const prediction = await AIPrediction.create({
-  patientId: req.user.id,
-  dataSource: "TEST",
-  sensorReadings,
-  predictedRisk: aiResult.predicted_risk,
-  probabilities: aiResult.probabilities,
-  explanation: aiResult.explanation,
-  languageExplanation: aiResult.language_explanation,
-  modelType: aiResult.model_type,
-  explainabilityMethod: aiResult.explainability_method,
-  languageModel: aiResult.language_model,
-});
+      patientId: req.user.id,
+      dataSource: "TEST",
+      sensorReadings,
+      predictedRisk: aiResult.predicted_risk,
+      probabilities: aiResult.probabilities,
+      explanation: aiResult.explanation,
+      modelType: aiResult.model_type,
+      explainabilityMethod: aiResult.explainability_method,
+    });
 
-    // Step 4: Return the saved prediction.
+    // Step 4: Generate or update an alert for elevated risk.
+    let alert = null;
+
+    if (
+      aiResult.predicted_risk === "HIGH" ||
+      aiResult.predicted_risk === "MEDIUM"
+    ) {
+      const riskLevel = aiResult.predicted_risk;
+
+      const message =
+        riskLevel === "HIGH"
+          ? "The AI model has detected a HIGH risk pattern. Doctor review is recommended."
+          : "The AI model has detected a MEDIUM risk pattern. Doctor review is recommended.";
+
+      const now = new Date();
+
+      // Check whether this patient already has an active alert.
+      const existingAlert = await Alert.findOne({
+        patientId: req.user.id,
+        status: "ACTIVE",
+      });
+
+      if (existingAlert) {
+        existingAlert.riskLevel = riskLevel;
+        existingAlert.message = message;
+        existingAlert.lastUpdatedAt = now;
+
+        await existingAlert.save();
+
+        alert = existingAlert;
+      } else {
+        alert = await Alert.create({
+          patientId: req.user.id,
+          riskLevel,
+          message,
+          status: "ACTIVE",
+          createdAtRisk: now,
+          lastUpdatedAt: now,
+        });
+      }
+    }
+
+    // Step 5: Return the saved prediction and alert.
     return res.status(201).json({
       message: "AI prediction generated successfully.",
       prediction,
+      alert,
     });
 
   } catch (error) {

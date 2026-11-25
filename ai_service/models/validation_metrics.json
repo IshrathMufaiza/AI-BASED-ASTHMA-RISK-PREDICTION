@@ -1,61 +1,6 @@
 {
-    "balanced_accuracy": 0.9267809815323558,
-    "macro_f1": 0.9246073491034835,
-    "classification_report": {
-        "HIGH": {
-            "precision": 0.9253731343283582,
-            "recall": 0.9271028037383178,
-            "f1-score": 0.9262371615312792,
-            "support": 1070.0
-        },
-        "LOW": {
-            "precision": 0.971612330893768,
-            "recall": 0.9609563500767713,
-            "f1-score": 0.9662549625055139,
-            "support": 4559.0
-        },
-        "MEDIUM": {
-            "precision": 0.8706417382516423,
-            "recall": 0.8922837907819783,
-            "f1-score": 0.8813299232736573,
-            "support": 1931.0
-        },
-        "accuracy": 0.9386243386243386,
-        "macro avg": {
-            "precision": 0.9225424011579229,
-            "recall": 0.9267809815323558,
-            "f1-score": 0.9246073491034835,
-            "support": 7560.0
-        },
-        "weighted avg": {
-            "precision": 0.9392776543439091,
-            "recall": 0.9386243386243386,
-            "f1-score": 0.9388992352834047,
-            "support": 7560.0
-        }
-    },
-    "confusion_matrix": [
-        [
-            992,
-            0,
-            78
-        ],
-        [
-            0,
-            4381,
-            178
-        ],
-        [
-            80,
-            128,
-            1723
-        ]
-    ],
-    "classes": [
-        "HIGH",
-        "LOW",
-        "MEDIUM"
-    ],
+    "model_type": "Random Forest",
+    "feature_count": 17,
     "features": [
         "hr_bpm",
         "spo2_pct",
@@ -73,12 +18,88 @@
         "spectral_flatness",
         "cough_count",
         "ambient_noise_db",
-        "audio_quality",
-        "accel_mean_g",
-        "accel_std_g",
-        "step_count",
-        "trunk_tilt_deg",
-        "activity_level",
-        "posture"
-    ]
+        "audio_quality"
+    ],
+    "numeric_features": [
+        "hr_bpm",
+        "spo2_pct",
+        "resp_rate_ppg",
+        "ppg_perfusion_index",
+        "hrv_rmssd_ms",
+        "ppg_signal_quality",
+        "temp_c",
+        "humidity_pct",
+        "gas_resistance_kohm",
+        "wheeze_index",
+        "wheeze_band_ratio",
+        "dominant_freq_hz",
+        "spectral_centroid_hz",
+        "spectral_flatness",
+        "cough_count",
+        "ambient_noise_db",
+        "audio_quality"
+    ],
+    "categorical_features": [],
+    "training_samples": 35280,
+    "validation_samples": 7560,
+    "test_samples_reserved": 7560,
+    "balanced_accuracy": 0.9227206674656028,
+    "macro_f1": 0.9226026860703639,
+    "classification_report": {
+        "HIGH": {
+            "precision": 0.9268755935422602,
+            "recall": 0.9121495327102803,
+            "f1-score": 0.9194536033914272,
+            "support": 1070.0
+        },
+        "LOW": {
+            "precision": 0.9708480565371025,
+            "recall": 0.9642465452950209,
+            "f1-score": 0.9675360404974139,
+            "support": 4559.0
+        },
+        "MEDIUM": {
+            "precision": 0.8701364325416877,
+            "recall": 0.891765924391507,
+            "f1-score": 0.8808184143222506,
+            "support": 1931.0
+        },
+        "accuracy": 0.9383597883597884,
+        "macro avg": {
+            "precision": 0.9226200275403502,
+            "recall": 0.9227206674656028,
+            "f1-score": 0.9226026860703639,
+            "support": 7560.0
+        },
+        "weighted avg": {
+            "precision": 0.938900347365194,
+            "recall": 0.9383597883597884,
+            "f1-score": 0.9385810214699475,
+            "support": 7560.0
+        }
+    },
+    "confusion_matrix": [
+        [
+            976,
+            0,
+            94
+        ],
+        [
+            0,
+            4396,
+            163
+        ],
+        [
+            77,
+            132,
+            1722
+        ]
+    ],
+    "classes": [
+        "HIGH",
+        "LOW",
+        "MEDIUM"
+    ],
+    "random_state": 42,
+    "n_estimators": 300
 }

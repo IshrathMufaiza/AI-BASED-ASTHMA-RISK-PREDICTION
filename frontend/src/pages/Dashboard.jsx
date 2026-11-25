@@ -54,24 +54,123 @@ function Dashboard() {
     );
   }
 
-  const chartData = [...records]
-    .reverse()
-    .map((record) => ({
-      date: new Date(record.createdAt).toLocaleDateString(),
-      heartRate: record.heartRate,
-      spo2: record.spo2,
-    }));
+  // Include both TEST and DEVICE predictions during development
+  const dashboardPredictions = aiPredictions.filter(
+    (prediction) =>
+      prediction.dataSource === "DEVICE" ||
+      prediction.dataSource === "TEST"
+  );
 
-  // Filter only actual device predictions
-const devicePredictions = aiPredictions.filter(
-  (prediction) => prediction.dataSource === "DEVICE"
-);
+  // Latest prediction (backend returns newest first)
+  const latestPrediction = dashboardPredictions[0] || null;
 
-// Latest device prediction
-const latestPrediction = devicePredictions[0] || null;
+  // Previous predictions
+  const previousPredictions = dashboardPredictions.slice(1);
 
-// Previous device predictions
-const previousPredictions = devicePredictions.slice(1);
+  // Extract readings from the latest AI prediction
+  const sensorReadings = latestPrediction?.sensorReadings || {};
+
+  // Use AI readings when available; otherwise use HealthRecord values
+  const latestHeartRate =
+    sensorReadings.hr_bpm ?? summary.latestHeartRate;
+
+  const latestSpo2 =
+    sensorReadings.spo2_pct ?? summary.latestSpo2;
+
+  const latestRespiratoryRate =
+    sensorReadings.resp_rate_ppg ?? summary.latestRespiratoryRate;
+
+  // Combine HealthRecord history and AI prediction history for chart
+  const healthRecordChartData = records.map((record) => {
+    const timestamp = new Date(record.createdAt).getTime();
+
+    return {
+      timestamp,
+      dateTime: new Date(timestamp).toLocaleString(),
+      heartRate: record.heartRate ?? null,
+      spo2: record.spo2 ?? null,
+    };
+  });
+
+  const aiChartData = dashboardPredictions
+    .map((prediction) => {
+      const readings = prediction.sensorReadings || {};
+      const predictionTimestamp =
+        prediction.capturedAt || prediction.createdAt;
+
+      const timestamp = predictionTimestamp
+        ? new Date(predictionTimestamp).getTime()
+        : null;
+
+      return {
+        timestamp,
+        dateTime: timestamp
+          ? new Date(timestamp).toLocaleString()
+          : "--",
+        heartRate: readings.hr_bpm ?? null,
+        spo2: readings.spo2_pct ?? null,
+      };
+    })
+    .filter(
+      (reading) =>
+        reading.timestamp !== null &&
+        (reading.heartRate != null || reading.spo2 != null)
+    );
+
+  // Merge both sources and sort chronologically
+  const chartData = [
+    ...healthRecordChartData,
+    ...aiChartData,
+  ]
+    .filter(
+      (reading) =>
+        reading.timestamp &&
+        (reading.heartRate != null || reading.spo2 != null)
+    )
+    .sort((a, b) => a.timestamp - b.timestamp);
+
+  // Combine records for the Health History table
+  const healthHistoryData = [
+    ...records.map((record) => ({
+      id: record._id,
+      timestamp: new Date(record.createdAt).getTime(),
+      date: new Date(record.createdAt).toLocaleString(),
+      recordType: "Health Record",
+      heartRate: record.heartRate ?? "--",
+      spo2: record.spo2 != null ? `${record.spo2}%` : "--",
+      respiratoryRate: record.respiratoryRate ?? "--",
+      peakFlow: record.peakFlow ?? "--",
+      risk: record.riskLevel,
+      riskClass: record.riskLevel?.toLowerCase(),
+    })),
+
+    ...dashboardPredictions.map((prediction) => {
+      const readings = prediction.sensorReadings || {};
+      const timestampValue =
+        prediction.capturedAt || prediction.createdAt;
+      const timestamp = timestampValue
+        ? new Date(timestampValue).getTime()
+        : 0;
+
+      return {
+        id: prediction._id,
+        timestamp,
+        date: timestamp
+          ? new Date(timestamp).toLocaleString()
+          : "--",
+        recordType: "AI Prediction",
+        heartRate: readings.hr_bpm ?? "--",
+        spo2:
+          readings.spo2_pct != null
+            ? `${readings.spo2_pct}%`
+            : "--",
+        respiratoryRate: readings.resp_rate_ppg ?? "--",
+        peakFlow: "--",
+        risk: prediction.predictedRisk,
+        riskClass: prediction.predictedRisk?.toLowerCase(),
+      };
+    }),
+  ].sort((a, b) => b.timestamp - a.timestamp);
 
   // Historical risk counts
   const previousRiskCounts = {
@@ -114,12 +213,12 @@ const previousPredictions = devicePredictions.slice(1);
           </div>
         </div>
 
-        {/* Existing Alert */}
+        {/* AI-Based Risk Alert */}
 
-        {(summary.latestRisk === "HIGH" ||
-          summary.latestSpo2 < 90) && (
+        {latestPrediction?.predictedRisk === "HIGH" && (
           <div className="alert-banner">
-            ⚠ High Risk Detected. Please contact your doctor immediately.
+            ⚠ AsthmaWatch AI has predicted HIGH risk.
+            Please review your latest reading and consult your doctor.
           </div>
         )}
 
@@ -130,15 +229,15 @@ const previousPredictions = devicePredictions.slice(1);
             <h2>Patient Information</h2>
 
             <span
-              className={
-                summary.latestRisk === "HIGH"
-                  ? "risk-badge high"
-                  : summary.latestRisk === "MEDIUM"
-                  ? "risk-badge medium"
-                  : "risk-badge low"
-              }
+              className={`risk-badge ${
+                latestPrediction
+                  ? latestPrediction.predictedRisk.toLowerCase()
+                  : "no-data"
+              }`}
             >
-              {summary.latestRisk} RISK
+              {latestPrediction
+                ? `${latestPrediction.predictedRisk} RISK`
+                : "NO AI DATA"}
             </span>
           </div>
 
@@ -181,25 +280,57 @@ const previousPredictions = devicePredictions.slice(1);
           <div className="vital-card">
             <div className="vital-icon">❤️</div>
             <h3>Heart Rate</h3>
-            <h2>{summary.latestHeartRate} bpm</h2>
+            <h2>{latestHeartRate ?? "--"} bpm</h2>
+            <small className="vital-source-label">
+              {sensorReadings.hr_bpm != null
+                ? latestPrediction.dataSource === "TEST"
+                  ? "TEST READING"
+                  : "DEVICE READING"
+                : summary.latestHeartRate != null
+                ? "HEALTH RECORD"
+                : "NO READING"}
+            </small>
           </div>
 
           <div className="vital-card">
             <div className="vital-icon">🫁</div>
             <h3>SpO₂</h3>
-            <h2>{summary.latestSpo2}%</h2>
+            <h2>{latestSpo2 ?? "--"}%</h2>
+            <small className="vital-source-label">
+              {sensorReadings.spo2_pct != null
+                ? latestPrediction.dataSource === "TEST"
+                  ? "TEST READING"
+                  : "DEVICE READING"
+                : summary.latestSpo2 != null
+                ? "HEALTH RECORD"
+                : "NO READING"}
+            </small>
           </div>
 
           <div className="vital-card">
             <div className="vital-icon">🌬️</div>
             <h3>Respiratory Rate</h3>
-            <h2>{summary.latestRespiratoryRate ?? "--"} rpm</h2>
+            <h2>{latestRespiratoryRate ?? "--"} rpm</h2>
+            <small className="vital-source-label">
+              {sensorReadings.resp_rate_ppg != null
+                ? latestPrediction.dataSource === "TEST"
+                  ? "TEST READING"
+                  : "DEVICE READING"
+                : summary.latestRespiratoryRate != null
+                ? "HEALTH RECORD"
+                : "NO READING"}
+            </small>
           </div>
 
           <div className="vital-card">
             <div className="vital-icon">💨</div>
             <h3>Peak Flow</h3>
             <h2>{summary.latestPeakFlow ?? "--"} L/min</h2>
+            <small className="vital-source-label">
+              {summary.latestPeakFlow != null
+                ? "HEALTH RECORD"
+                : "NO READING"}
+            </small>
           </div>
         </div>
 
@@ -246,6 +377,18 @@ const previousPredictions = devicePredictions.slice(1);
                       latestPrediction.capturedAt
                     ).toLocaleString()}
                   </p>
+
+                  <span
+                    className={`prediction-source ${
+                      latestPrediction.dataSource === "TEST"
+                        ? "test"
+                        : "device"
+                    }`}
+                  >
+                    {latestPrediction.dataSource === "TEST"
+                      ? "TEST DATA · Development prediction"
+                      : "DEVICE DATA"}
+                  </span>
                 </div>
 
                 <div className="ai-model-info">
@@ -312,8 +455,8 @@ const previousPredictions = devicePredictions.slice(1);
                           }`}
                         >
                           {item.direction === "towards"
-                            ? "Increased model risk"
-                            : "Reduced model risk"}
+                            ? "Towards predicted class"
+                            : "Away from predicted class"}
                         </span>
                       </div>
                     ))
@@ -321,23 +464,6 @@ const previousPredictions = devicePredictions.slice(1);
                     <p>No feature contributions available.</p>
                   )}
                 </div>
-              </div>
-
-              {/* Gemini Explanation */}
-
-              <div className="ai-gemini-box">
-                <h3>Understanding Your Latest Reading</h3>
-
-                {latestPrediction.languageExplanation ? (
-                  <p>
-                    {latestPrediction.languageExplanation}
-                  </p>
-                ) : (
-                  <p>
-                    A human-readable explanation is currently unavailable
-                    for this prediction.
-                  </p>
-                )}
               </div>
 
               {/* Previous Reading Summary */}
@@ -402,29 +528,55 @@ const previousPredictions = devicePredictions.slice(1);
         <div className="chart-card">
           <h2>Health Trend</h2>
 
-          <ResponsiveContainer width="100%" height={320}>
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
+          {chartData.length === 0 ? (
+            <p>No historical readings available yet.</p>
+          ) : (
+            <ResponsiveContainer width="100%" height={320}>
+              <LineChart
+                data={chartData}
+                margin={{ top: 10, right: 20, left: 10, bottom: 15 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
 
-              <XAxis dataKey="date" />
+                <XAxis
+                  dataKey="dateTime"
+                  tickFormatter={(value) => {
+                    const date = new Date(value);
 
-              <YAxis />
+                    return date.toLocaleString([], {
+                      month: "short",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    });
+                  }}
+                  angle={0}
+                  height={45}
+                  interval="preserveStartEnd"
+                  tickMargin={10}
+                  minTickGap={20}
+                />
 
-              <Tooltip />
+                <YAxis />
 
-              <Line
-                type="monotone"
-                dataKey="heartRate"
-                name="Heart Rate"
-              />
+                <Tooltip />
 
-              <Line
-                type="monotone"
-                dataKey="spo2"
-                name="SpO₂"
-              />
-            </LineChart>
-          </ResponsiveContainer>
+                <Line
+                  type="monotone"
+                  dataKey="heartRate"
+                  name="Heart Rate"
+                  connectNulls={false}
+                />
+
+                <Line
+                  type="monotone"
+                  dataKey="spo2"
+                  name="SpO₂"
+                  connectNulls={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </div>
 
         {/* Health History */}
@@ -435,7 +587,8 @@ const previousPredictions = devicePredictions.slice(1);
           <table className="history-table">
             <thead>
               <tr>
-                <th>Date</th>
+                <th>Date & Time</th>
+                <th>Record Type</th>
                 <th>Heart Rate</th>
                 <th>SpO₂</th>
                 <th>Respiratory</th>
@@ -445,29 +598,37 @@ const previousPredictions = devicePredictions.slice(1);
             </thead>
 
             <tbody>
-              {records.map((record) => (
-                <tr key={record._id}>
-                  <td>
-                    {new Date(record.createdAt).toLocaleDateString()}
-                  </td>
+              {healthHistoryData.length > 0 ? (
+                healthHistoryData.map((record) => (
+                  <tr key={`${record.recordType}-${record.id}`}>
+                    <td>{record.date}</td>
 
-                  <td>{record.heartRate}</td>
+                    <td>{record.recordType}</td>
 
-                  <td>{record.spo2}%</td>
+                    <td>{record.heartRate}</td>
 
-                  <td>{record.respiratoryRate}</td>
+                    <td>{record.spo2}</td>
 
-                  <td>{record.peakFlow}</td>
+                    <td>{record.respiratoryRate}</td>
 
-                  <td>
-                    <span
-                      className={`risk-pill ${record.riskLevel.toLowerCase()}`}
-                    >
-                      {record.riskLevel}
-                    </span>
+                    <td>{record.peakFlow}</td>
+
+                    <td>
+                      <span
+                        className={`risk-pill ${record.riskClass}`}
+                      >
+                        {record.risk}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7">
+                    No health history available.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
